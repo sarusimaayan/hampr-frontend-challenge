@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import {Check} from "@mui/icons-material";
 import {CharactersTable} from "../CharactersTable/CharactersTable";
 import {GridRowSelectionModel} from "@mui/x-data-grid/models/gridRowSelectionModel";
-import {Character} from "../../types/characters";
+import {Character, CharacterAbility} from "../../types/characters";
 import {GridColDef} from "@mui/x-data-grid";
 import {calculateAverageCapabilities, capitalFirstLetter} from "../../utils/utils";
 import {AbilityComponent} from "../AbilitiesComponent/AbilityComponent";
@@ -14,16 +14,16 @@ import {AbilityComponent} from "../AbilitiesComponent/AbilityComponent";
 // NOTE: data
 const MAX_SELECTION = 6 // Maximum number of rows that can be selected
 
-interface HomeContainer {
+interface HomeContainerProps {
     data: Character[];
     columns: GridColDef[];
     uniqueTagNames: string[];
 }
 
-export const HomeContainer = ({data, columns, uniqueTagNames}) => {
+export const HomeContainer = ({data, columns, uniqueTagNames}: HomeContainerProps) => {
     const [selectedCharacters, setSelectedCharacters] = useState<GridRowSelectionModel>([])
     const [selectedCharactersAvatars, setSelectedCharactersAvatars] = useState<Record<any, any>>([])
-    const [averageCharactersCapabilities, setAverageCapabilities] = useState<Record<any, any>>([])
+    const [averageCharactersCapabilities, setAverageCapabilities] = useState<CharacterAbility[]>([])
     const [searchValue, setSearchValue] = useState('')
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 

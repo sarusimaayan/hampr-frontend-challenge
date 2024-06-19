@@ -1,9 +1,10 @@
 import React from 'react'
-import { Container, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { AbilityItem } from './AbilityItem'
+import {CharacterAbility} from "../../types/characters";
 
 interface AbilityItemProps {
-    averageCharactersCapabilities: Record<any,any>;
+    averageCharactersCapabilities: CharacterAbility[];
 }
 export const AbilityComponent = ({ averageCharactersCapabilities }: AbilityItemProps) => {
   return (

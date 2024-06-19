@@ -1,11 +1,11 @@
 import {GridRowId} from "@mui/x-data-grid";
-import {AbilityName} from "../types/characters";
+import {AbilityName, CharacterAbility} from "../types/characters";
 
 export const capitalFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export const calculateAverageCapabilities = (selectedCharacters: GridRowId[], data) => {
+export const calculateAverageCapabilities = (selectedCharacters: GridRowId[], data): CharacterAbility[] => {
     let mobilitySum = 0
     let techniqueSum = 0
     let survivabilitySum = 0
@@ -37,11 +37,11 @@ export const calculateAverageCapabilities = (selectedCharacters: GridRowId[], da
     })
 
     const idsCount = selectedCharacters.length;
-    const powerAvg = (powerSum / idsCount).toFixed(2);
-    const mobilityAvg = (mobilitySum / idsCount).toFixed(2);
-    const techniqueAvg = (techniqueSum / idsCount).toFixed(2);
-    const survivabilityAvg = (survivabilitySum / idsCount).toFixed(2);
-    const energyAvg = (energySum / idsCount).toFixed(2);
+    const powerAvg = Number((powerSum / idsCount).toFixed(2));
+    const mobilityAvg = Number((mobilitySum / idsCount).toFixed(2));
+    const techniqueAvg = Number((techniqueSum / idsCount).toFixed(2));
+    const survivabilityAvg = Number((survivabilitySum / idsCount).toFixed(2));
+    const energyAvg = Number((energySum / idsCount).toFixed(2));
 
     return [
         {abilityName: AbilityName.Power, abilityScore: powerAvg},
