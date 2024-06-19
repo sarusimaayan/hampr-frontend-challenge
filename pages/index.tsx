@@ -1,7 +1,7 @@
 import {Avatar, Box, Chip, Container, Grid, InputAdornment, TextField, Typography, Stack} from '@mui/material'
 import jsonData from 'data/characters.json'
 import type {Character} from 'types/characters'
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridColDef, GridRowParams} from '@mui/x-data-grid';
 import DoneIcon from '@mui/icons-material/Done';
 
 import logo from 'img/Mortal-Kombat-Logo.png'
@@ -11,11 +11,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import {AbilityItem} from "../components/AbilitiesComponent/AbilityItem";
 import {CharactersTable} from "../components/CharactersTable/CharactersTable";
 import {GridRowSelectionModel} from "@mui/x-data-grid/models/gridRowSelectionModel";
+import {minHeight} from "@mui/system";
 
 // EXAMPLE: style via css modules (optional)
 // import styles from 'styles/index.module.scss'
 
 // NOTE: data
+const MAX_SELECTION = 3; // Maximum number of rows that can be selected
+
 const data: Character[] = jsonData as Character[];
 const columns: GridColDef[] = [
     {
@@ -108,6 +111,7 @@ const Home = () => {
     const [showCancelIcon, setShowCancelIcon] = useState(false);
     const [selectedCharacters, setSelectedCharacters] = useState<GridRowSelectionModel>([]);
     const [averageCharacterCapabilities, setAverageCapabilities] = useState<Record<any, any>>([]);
+    const [searchValue, setSearchValue] = useState("")
 
     const handleChipClick = () => {
         console.info('You clicked the Chip.');
@@ -120,7 +124,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        if (selectedCharacters.length > 0) {
+        if (selectedCharacters.length <= MAX_SELECTION) {
             let mobilitySum = 0;
             let techniqueSum = 0;
             let survivabilitySum = 0;
@@ -131,6 +135,9 @@ const Home = () => {
                 const characterObj = data.find(character => character.id === id);
                 characterObj?.abilities.forEach(ability => {
                     switch (ability.abilityName){
+                        case "Power":
+                            powerSum += ability.abilityScore;
+                            break
                         case "Mobility":
                             mobilitySum += ability.abilityScore;
                             break
@@ -139,9 +146,6 @@ const Home = () => {
                             break
                         case "Survivability":
                             survivabilitySum += ability.abilityScore;
-                            break
-                        case "Power":
-                            powerSum += ability.abilityScore;
                             break
                         case "Energy":
                             energySum += ability.abilityScore;
@@ -152,21 +156,22 @@ const Home = () => {
             });
 
             const idsCount = selectedCharacters.length;
-            const mobilityAvg = mobilitySum / idsCount;
-            const techniqueAvg = techniqueSum / idsCount;
-            const survivabilityAvg = survivabilitySum / idsCount;
-            const powerAvg = powerSum / idsCount;
-            const energyAvg = energySum / idsCount;
+            const powerAvg = (powerSum / idsCount).toFixed(2);
+            const mobilityAvg = (mobilitySum / idsCount).toFixed(2);
+            const techniqueAvg = (techniqueSum / idsCount).toFixed(2);
+            const survivabilityAvg = (survivabilitySum / idsCount).toFixed(2);
+            const energyAvg = (energySum / idsCount).toFixed(2);
 
             setAverageCapabilities([
+                {abilityName: 'Power', abilityScore: powerAvg},
                 {abilityName: 'Mobility', abilityScore: mobilityAvg},
                 {abilityName: 'Technique', abilityScore: techniqueAvg},
                 {abilityName: 'Survivability', abilityScore: survivabilityAvg},
-                {abilityName: 'Power', abilityScore: powerAvg},
                 {abilityName: 'Energy', abilityScore: energyAvg},
             ]);
         }
     }, [selectedCharacters]);
+
 
     return (
         <div className="root">
@@ -201,9 +206,9 @@ const Home = () => {
                         <TextField
                             id="search-box"
                             variant="outlined"
-                            // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            //     setName(event.target.value);
-                            // }}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                setSearchValue(event.target.value);
+                            }}
                             placeholder={'Search Characters...'}
                             InputProps={{
                                 startAdornment: (
@@ -234,11 +239,17 @@ const Home = () => {
                         </Grid>
                     </Container>
                     <CharactersTable
+                        // style={{minHeight:"500px"}}
                         data={data}
                         columns={columns}
+                        searchValue={searchValue}
                         onSelection={(ids: GridRowSelectionModel) => {
-                            setSelectedCharacters(ids);
+                            if (ids.length <= MAX_SELECTION) {
+                                setSelectedCharacters(ids);
+                            }
+
                         }}
+                        rowSelectionModel={selectedCharacters}
                     />
                 </Container>
             </Box>
