@@ -8,7 +8,7 @@ import {CharactersTable} from "../CharactersTable/CharactersTable";
 import {GridRowSelectionModel} from "@mui/x-data-grid/models/gridRowSelectionModel";
 import {Character} from "../../types/characters";
 import {GridColDef} from "@mui/x-data-grid";
-import {capitalFirstLetter} from "../../utils/utils";
+import {calculateAverageCapabilities, capitalFirstLetter} from "../../utils/utils";
 
 // NOTE: data
 const MAX_SELECTION = 6 // Maximum number of rows that can be selected
@@ -19,7 +19,7 @@ interface HomeContainer {
     uniqueTagNames: string[];
 }
 
-export const HomeContainer = ({ data, columns, uniqueTagNames }) => {
+export const HomeContainer = ({data, columns, uniqueTagNames}) => {
     const [showCancelIcon, setShowCancelIcon] = useState(false)
     const [selectedCharacters, setSelectedCharacters] = useState<GridRowSelectionModel>([])
     const [selectedCharactersAvatars, setSelectedCharactersAvatars] = useState<Record<any, any>>([])
@@ -37,64 +37,25 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }) => {
 
     useEffect(() => {
         if (selectedCharacters.length <= MAX_SELECTION) {
-            let mobilitySum = 0
-            let techniqueSum = 0
-            let survivabilitySum = 0
-            let powerSum = 0
-            let energySum = 0
-
-            selectedCharacters.forEach((id) => {
-                const characterObj = data.find((character) => character.id === id)
-                // characterObj? setSelectedCharactersAvatars() TODO continue here to populate an array of objects{id,thumbnail}
-                characterObj?.abilities.forEach((ability) => {
-                    switch (ability.abilityName) {
-                        case 'Power':
-                            powerSum += ability.abilityScore
-                            break
-                        case 'Mobility':
-                            mobilitySum += ability.abilityScore
-                            break
-                        case 'Technique':
-                            techniqueSum += ability.abilityScore
-                            break
-                        case 'Survivability':
-                            survivabilitySum += ability.abilityScore
-                            break
-                        case 'Energy':
-                            energySum += ability.abilityScore
-                            break
-                        default:
-                    }
-                })
-            })
-
-            const idsCount = selectedCharacters.length
-            const powerAvg = (powerSum / idsCount).toFixed(2)
-            const mobilityAvg = (mobilitySum / idsCount).toFixed(2)
-            const techniqueAvg = (techniqueSum / idsCount).toFixed(2)
-            const survivabilityAvg = (survivabilitySum / idsCount).toFixed(2)
-            const energyAvg = (energySum / idsCount).toFixed(2)
-
-            setAverageCapabilities([
-                { abilityName: 'Power', abilityScore: powerAvg },
-                { abilityName: 'Mobility', abilityScore: mobilityAvg },
-                { abilityName: 'Technique', abilityScore: techniqueAvg },
-                { abilityName: 'Survivability', abilityScore: survivabilityAvg },
-                { abilityName: 'Energy', abilityScore: energyAvg },
-            ])
+            const averages = calculateAverageCapabilities(selectedCharacters, data);
+            setAverageCapabilities(averages);
         }
-    }, [selectedCharacters])
+    }, [selectedCharacters]);
 
     return (
         <Container maxWidth="lg">
-            <Stack mx="auto" mb={{ xs: 4, md: 8 }} mt={{ xs: 8, md: 0 }} width="500px">
-                <TitleComponent selectedCharacters={selectedCharacters} />
+            <Stack mx="auto" mb={{xs: 4, md: 8}} mt={{xs: 8, md: 0}} width="500px">
+                <TitleComponent selectedCharacters={selectedCharacters}/>
                 {/*<AbilityComponent averageCharactersCapabilities={averageCharactersCapabilities}/>*/}
                 <Stack mb={'35px'}>
                     <Stack alignItems="center">
                         <Stack direction="row">
                             {averageCharactersCapabilities?.map((capability) => (
-                                <AbilityItem abilityName={capability.abilityName} abilityScore={capability.abilityScore} />
+                                <AbilityItem
+                                    key={capability.abilityName}
+                                    abilityName={capability.abilityName}
+                                    abilityScore={capability.abilityScore}
+                                />
                             ))}
                         </Stack>
                     </Stack>
@@ -103,7 +64,7 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }) => {
                     </Typography>
                 </Stack>
                 <TextField
-                    sx={{ bgcolor: 'white' }}
+                    sx={{bgcolor: 'white'}}
                     id="search-box"
                     variant="outlined"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +74,7 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }) => {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <SearchIcon />
+                                <SearchIcon/>
                             </InputAdornment>
                         ),
                     }}
@@ -125,14 +86,14 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }) => {
                     {uniqueTagNames.map((tagName, index) => (
                         <Grid item key={index}>
                             <Chip
-                                sx={{ bgcolor: 'white' }}
+                                sx={{bgcolor: 'white'}}
                                 label={capitalFirstLetter(tagName)}
                                 color="primary"
                                 variant="outlined"
                                 clickable={true}
                                 onClick={() => handleChipClick(tagName)}
                                 onDelete={selectedTags.includes(tagName) ? () => handleChipClick(tagName) : undefined}
-                                deleteIcon={selectedTags.includes(tagName) ? <Check /> : undefined}
+                                deleteIcon={selectedTags.includes(tagName) ? <Check/> : undefined}
                             />
                         </Grid>
                     ))}

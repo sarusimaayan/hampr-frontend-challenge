@@ -1,4 +1,10 @@
-export type AbilityName = 'Mobility' | 'Technique' | 'Survivability' | 'Power' | 'Energy'
+export enum AbilityName {
+  Power = 'Power',
+  Mobility = 'Mobility',
+  Technique = 'Technique',
+  Survivability = 'Survivability',
+  Energy = 'Energy'
+}
 
 export interface CharacterAbility {
   abilityName: AbilityName

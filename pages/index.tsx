@@ -2,7 +2,6 @@ import { Avatar, Box, Chip, Container, Grid } from '@mui/material'
 import jsonData from 'data/characters.json'
 import type { Character } from 'types/characters'
 import { GridColDef } from '@mui/x-data-grid'
-
 import logo from 'img/Mortal-Kombat-Logo.png'
 import Image from 'next/image'
 import React, {useMemo} from 'react'
@@ -12,7 +11,7 @@ import {capitalFirstLetter} from "../utils/utils";
 // EXAMPLE: style via css modules (optional)
 // import styles from 'styles/index.module.scss'
 
-const data: Character[] = jsonData as Character[]
+const data: Character[] = jsonData as Character[];
 const columns: GridColDef[] = [
   {
     field: 'thumbnail',
@@ -86,7 +85,7 @@ const columns: GridColDef[] = [
       return row.abilities.find((item) => item.abilityName === 'Energy').abilityScore
     },
   },
-]
+];
 
 const Home = () => {
 
@@ -101,7 +100,6 @@ const Home = () => {
         return Array.from(new Set(allCharacterTagNames));
       }, [data]);
 
-  // @ts-ignore
   return (
     <div className="root">
       <header className="header">

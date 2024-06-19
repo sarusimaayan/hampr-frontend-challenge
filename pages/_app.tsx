@@ -24,7 +24,7 @@ const MyApp = ({
 }: MyAppProps) => {
   useEffect(() => {
     if (document.readyState === 'complete') {
-      printDeveloperMessage()
+      // printDeveloperMessage()
     } else {
       window.addEventListener('load', printDeveloperMessage)
       return () => window.removeEventListener('load', printDeveloperMessage)
