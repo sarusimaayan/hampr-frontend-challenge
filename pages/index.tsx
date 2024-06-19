@@ -2,7 +2,6 @@ import { Avatar, Box, Chip, Container, Grid, InputAdornment, TextField, Typograp
 import jsonData from 'data/characters.json'
 import type { Character } from 'types/characters'
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
-import DoneIcon from '@mui/icons-material/Done'
 
 import logo from 'img/Mortal-Kombat-Logo.png'
 import Image from 'next/image'
@@ -11,9 +10,10 @@ import SearchIcon from '@mui/icons-material/Search'
 import { AbilityItem, AbilityItemProps } from '../components/AbilitiesComponent/AbilityItem'
 import { CharactersTable } from '../components/CharactersTable/CharactersTable'
 import { GridRowSelectionModel } from '@mui/x-data-grid/models/gridRowSelectionModel'
-import { bgcolor, minHeight, textAlign } from '@mui/system'
 import { AbilityComponent } from '../components/AbilitiesComponent/AbilityComponent'
 import { TitleComponent } from '../components/TitleComponent/TitleComponent'
+import {log} from "next/dist/server/typescript/utils";
+import {Check, Clear} from "@mui/icons-material";
 
 // EXAMPLE: style via css modules (optional)
 // import styles from 'styles/index.module.scss'
@@ -112,18 +112,18 @@ const capitalFirstLetter = (string: string) => {
 const Home = () => {
   const [showCancelIcon, setShowCancelIcon] = useState(false)
   const [selectedCharacters, setSelectedCharacters] = useState<GridRowSelectionModel>([])
+  const [selectedCharactersAvatars, setSelectedCharactersAvatars] = useState<Record<any, any>>([])
   const [averageCharactersCapabilities, setAverageCapabilities] = useState<Record<any, any>>([])
   const [searchValue, setSearchValue] = useState('')
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const handleChipClick = () => {
-    console.info('You clicked the Chip.')
-    setShowCancelIcon(true)
-  }
-
-  const handleChipDelete = () => {
-    console.info('You clicked the delete icon.')
-    setShowCancelIcon(false)
-  }
+  const handleChipClick = (tagName: string) => {
+    setSelectedTags(prevSelectedTags =>
+        prevSelectedTags.includes(tagName)
+            ? prevSelectedTags.filter(t => t !== tagName)
+            : [...prevSelectedTags, tagName]
+    );
+  };
 
   useEffect(() => {
     if (selectedCharacters.length <= MAX_SELECTION) {
@@ -135,6 +135,7 @@ const Home = () => {
 
       selectedCharacters.forEach((id) => {
         const characterObj = data.find((character) => character.id === id)
+        // characterObj? setSelectedCharactersAvatars() TODO continue here to populate an array of objects{id,thumbnail}
         characterObj?.abilities.forEach((ability) => {
           switch (ability.abilityName) {
             case 'Power':
@@ -231,13 +232,12 @@ const Home = () => {
                   <Chip
                     sx={{ bgcolor: 'white' }}
                     label={capitalFirstLetter(tagName)}
-                    onClick={handleChipClick}
-                    // onDelete={handleChipDelete}
                     color="primary"
                     variant="outlined"
-                    // deleteIcon={<DoneIcon />}
-                    // deleteIcon={showCancelIcon ? <CancelRoundedIcon /> : undefined}
-                    // onDelete={showCancelIcon ? () => {} : undefined}
+                    clickable={true}
+                    onClick={() => handleChipClick(tagName)}
+                    onDelete={selectedTags.includes(tagName) ? () => handleChipClick(tagName) : undefined}
+                    deleteIcon={selectedTags.includes(tagName) ? <Check /> : undefined}
                   />
                 </Grid>
               ))}
@@ -247,6 +247,7 @@ const Home = () => {
             data={data}
             columns={columns}
             searchValue={searchValue}
+            tagsValues={selectedTags}
             onSelection={(ids: GridRowSelectionModel) => {
               if (ids.length <= MAX_SELECTION) {
                 setSelectedCharacters(ids)

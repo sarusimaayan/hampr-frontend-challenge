@@ -9,6 +9,7 @@ interface CharactersTableProps {
   onSelection: (ids: GridRowSelectionModel) => void
   rowSelectionModel: GridRowSelectionModel | undefined
   searchValue: string
+  tagsValues: string[]
 }
 
 export const CharactersTable = ({
@@ -17,6 +18,7 @@ export const CharactersTable = ({
   onSelection,
   rowSelectionModel,
   searchValue,
+  tagsValues,
 }: CharactersTableProps) => {
   return (
     <DataGrid
@@ -33,7 +35,10 @@ export const CharactersTable = ({
       onRowSelectionModelChange={onSelection}
       rowSelectionModel={rowSelectionModel}
       filterModel={{
-        items: [{ field: 'name', operator: 'contains', value: searchValue }],
+        items: [
+          { id: 1, field: 'name', operator: 'contains', value: searchValue },
+          { id: 2, field: 'tags', operator: 'isAnyOf', value: tagsValues },
+        ],
       }}
     />
   )
