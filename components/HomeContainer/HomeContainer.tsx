@@ -9,6 +9,7 @@ import {GridRowSelectionModel} from "@mui/x-data-grid/models/gridRowSelectionMod
 import {Character} from "../../types/characters";
 import {GridColDef} from "@mui/x-data-grid";
 import {calculateAverageCapabilities, capitalFirstLetter} from "../../utils/utils";
+import {AbilityComponent} from "../AbilitiesComponent/AbilityComponent";
 
 // NOTE: data
 const MAX_SELECTION = 6 // Maximum number of rows that can be selected
@@ -20,7 +21,6 @@ interface HomeContainer {
 }
 
 export const HomeContainer = ({data, columns, uniqueTagNames}) => {
-    const [showCancelIcon, setShowCancelIcon] = useState(false)
     const [selectedCharacters, setSelectedCharacters] = useState<GridRowSelectionModel>([])
     const [selectedCharactersAvatars, setSelectedCharactersAvatars] = useState<Record<any, any>>([])
     const [averageCharactersCapabilities, setAverageCapabilities] = useState<Record<any, any>>([])
@@ -46,23 +46,7 @@ export const HomeContainer = ({data, columns, uniqueTagNames}) => {
         <Container maxWidth="lg">
             <Stack mx="auto" mb={{xs: 4, md: 8}} mt={{xs: 8, md: 0}} width="500px">
                 <TitleComponent selectedCharacters={selectedCharacters}/>
-                {/*<AbilityComponent averageCharactersCapabilities={averageCharactersCapabilities}/>*/}
-                <Stack mb={'35px'}>
-                    <Stack alignItems="center">
-                        <Stack direction="row">
-                            {averageCharactersCapabilities?.map((capability) => (
-                                <AbilityItem
-                                    key={capability.abilityName}
-                                    abilityName={capability.abilityName}
-                                    abilityScore={capability.abilityScore}
-                                />
-                            ))}
-                        </Stack>
-                    </Stack>
-                    <Typography variant="caption" color="#666666" align="left" mt="20px">
-                        * Totals as average for squad
-                    </Typography>
-                </Stack>
+                <AbilityComponent averageCharactersCapabilities={averageCharactersCapabilities}/>
                 <TextField
                     sx={{bgcolor: 'white'}}
                     id="search-box"

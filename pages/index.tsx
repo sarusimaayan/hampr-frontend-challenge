@@ -104,9 +104,6 @@ const Home = () => {
     <div className="root">
       <header className="header">
         <Image src={logo} height={120} className="logo" alt="logo" />
-        <p>
-          Edit <code>pages/index.tsx</code> and save to reload.
-        </p>
       </header>
       <Box
         width="100%"

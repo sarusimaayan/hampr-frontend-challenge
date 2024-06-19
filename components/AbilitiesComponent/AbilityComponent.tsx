@@ -1,22 +1,21 @@
 import React from 'react'
 import { Container, Stack, Typography } from '@mui/material'
-import { AbilityItem, AbilityItemProps } from './AbilityItem'
+import { AbilityItem } from './AbilityItem'
 
-// interface TitleItemProps {
-//     abilityName: string;
-//     abilityScore: number;
-// }
-// interface TitleItemProps {
-//     averageCharactersCapabilities: TitleItemProps[];
-// }
-
-export const AbilityComponent = (averageCharactersCapabilities: AbilityItemProps[] | undefined) => {
+interface AbilityItemProps {
+    averageCharactersCapabilities: Record<any,any>;
+}
+export const AbilityComponent = ({ averageCharactersCapabilities }: AbilityItemProps) => {
   return (
       <Stack mb={'35px'}>
           <Stack alignItems="center">
               <Stack direction="row">
                   {averageCharactersCapabilities?.map((capability) => (
-                      <AbilityItem abilityName={capability.abilityName} abilityScore={capability.abilityScore} />
+                      <AbilityItem
+                          key={capability.abilityName}
+                          abilityName={capability.abilityName}
+                          abilityScore={capability.abilityScore}
+                      />
                   ))}
               </Stack>
           </Stack>
