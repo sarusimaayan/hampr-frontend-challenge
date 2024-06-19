@@ -4,12 +4,12 @@ import { Character } from '../../types/characters'
 import { GridRowSelectionModel } from '@mui/x-data-grid/models/gridRowSelectionModel'
 
 interface CharactersTableProps {
-  data: Character[]
-  columns: GridColDef[]
-  onSelection: (ids: GridRowSelectionModel) => void
-  rowSelectionModel: GridRowSelectionModel | undefined
-  searchValue: string
-  tagsValues: string[]
+  data: Character[];
+  columns: GridColDef[];
+  onSelection: (ids: GridRowSelectionModel) => void;
+  rowSelectionModel: GridRowSelectionModel | undefined;
+  searchValue: string;
+  tagsValues: string[];
 }
 
 export const CharactersTable = ({

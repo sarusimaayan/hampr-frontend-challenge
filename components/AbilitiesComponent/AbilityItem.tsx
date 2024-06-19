@@ -2,8 +2,8 @@ import React from 'react'
 import { Container, Typography } from '@mui/material'
 
 export interface AbilityItemProps {
-  abilityName: string
-  abilityScore: number
+  abilityName: string;
+  abilityScore: number;
 }
 
 export const AbilityItem = ({ abilityName, abilityScore }: AbilityItemProps) => {
