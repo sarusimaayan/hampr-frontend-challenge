@@ -1,4 +1,4 @@
-import {Avatar, Box, Chip, Container, Grid} from '@mui/material'
+import {Avatar, Box, Chip, Container, Grid, Paper} from '@mui/material'
 import jsonData from 'data/characters.json'
 import type {Character} from 'types/characters'
 import {AbilityName} from "types/characters";
@@ -8,6 +8,8 @@ import Image from 'next/image'
 import React, {useMemo} from 'react'
 import {HomeContainer} from "../components/HomeContainer/HomeContainer";
 import {capitalFirstLetter} from "../utils/utils";
+import {margin} from "@mui/system";
+import StickyOverlayFrame from "../components/Frame/StickyOverlayFrame";
 
 // EXAMPLE: style via css modules (optional)
 // import styles from 'styles/index.module.scss'
@@ -126,9 +128,6 @@ const Home = () => {
 
   return (
     <div className="root">
-      <header className="header">
-        <Image src={logo} height={120} className="logo" alt="logo" />
-      </header>
       <Box
         width="100%"
         // EXAMPLE: style via material-ui/mui style props/sx (optional)
@@ -136,6 +135,9 @@ const Home = () => {
         bgcolor="#f5faff"
         py={10}
       >
+        <header>
+          <StickyOverlayFrame/>
+        </header>
         <HomeContainer data={data} columns={columns} uniqueTagNames={uniqueCharacterTagNames} />
       </Box>
     </div>

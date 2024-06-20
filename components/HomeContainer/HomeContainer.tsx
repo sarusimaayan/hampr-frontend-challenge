@@ -1,4 +1,4 @@
-import {Avatar, Chip, Container, Grid, InputAdornment, Stack, TextField, Typography} from '@mui/material'
+import {Avatar, Box, Chip, Container, Grid, InputAdornment, Paper, Stack, TextField, Typography} from '@mui/material'
 import {TitleComponent} from '../TitleComponent/TitleComponent'
 import {AbilityItem} from '../AbilitiesComponent/AbilityItem'
 import React, {useEffect, useState} from 'react'
