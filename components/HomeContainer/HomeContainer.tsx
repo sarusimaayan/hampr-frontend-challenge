@@ -1,4 +1,4 @@
-import { Avatar, Chip, Container, Grid, InputAdornment, Paper, Stack, TextField } from '@mui/material'
+import { Avatar, Chip, Container, Grid, InputAdornment, Stack, TextField } from '@mui/material'
 import { TitleComponent } from '../TitleComponent/TitleComponent'
 import React, { useEffect, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
@@ -9,9 +9,7 @@ import { Character, CharacterAbility } from '../../types/characters'
 import { GridColDef } from '@mui/x-data-grid'
 import { calculateAverageCapabilities, capitalFirstLetter, getSelectedCharactersInfo } from '../../utils/utils'
 import { AbilityComponent } from '../AbilitiesComponent/AbilityComponent'
-
-// NOTE: data
-const MAX_SELECTION = 6 // Maximum number of rows that can be selected
+import {MAX_SELECTION} from "../../utils/constants";
 
 interface HomeContainerProps {
   data: Character[]

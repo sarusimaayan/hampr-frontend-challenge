@@ -1,4 +1,4 @@
-import {Avatar, Box, Chip, Container, Grid, Paper, Typography} from '@mui/material'
+import { Avatar, Box, Chip, Container, Grid } from '@mui/material'
 import jsonData from 'data/characters.json'
 import type { Character } from 'types/characters'
 import { AbilityName } from 'types/characters'
@@ -122,12 +122,7 @@ const Home = () => {
 
   return (
     <div className="root">
-      <Box
-        width="100%"
-        mb={10}
-        bgcolor="#f5faff"
-        py={10}
-      >
+      <Box width="100%" mb={10} bgcolor="#f5faff" py={10}>
         <header>
           <StickyOverlayFrame />
         </header>

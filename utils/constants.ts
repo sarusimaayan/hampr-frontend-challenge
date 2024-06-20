@@ -1,3 +1,5 @@
+export const MAX_SELECTION = 6 // Maximum number of rows that can be selected
+
 export const printDeveloperMessage = () => {
   console.log('H   H AAAAA MM   MM PPPPP RRRRR')
   console.log('H   H A   A M M M M P   P R   R    Hi there developer!')
