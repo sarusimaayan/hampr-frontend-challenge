@@ -13,7 +13,6 @@ export const calculateAverageCapabilities = (selectedCharacters: Character[]): C
   let energySum = 0
 
   selectedCharacters.forEach((character) => {
-    // const characterObj = data.find((character) => character.id === id)
     character.abilities.forEach((ability) => {
       switch (ability.abilityName) {
         case AbilityName.Power:
