@@ -44,14 +44,14 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }: HomeContainerPr
 
   return (
     <Container maxWidth="lg">
-      <Stack mx="auto" mb={{ xs: 4, md: 8 }} mt={{ xs: 8, md: 0 }} width="500px">
+      <Stack mx="auto" mb={{ xs: 3, md: 6 }} width="500px">
         <TitleComponent selectedCharacters={selectedCharacters} />
-        <Stack direction={'row'} alignSelf={'center'} spacing={2} marginY={4}>
+        <Stack direction={'row'} alignSelf={'center'} spacing={2} marginY={3}>
           {selectedCharactersInfo?.map((character) => (
             <Avatar
               alt={character.name}
               src={character.thumbnail}
-              sx={{ width: 80, height: 80, border: 1, borderColor: '#217AFF', objectFit: 'cover' }}
+              sx={{ width: 80, height: 80, border: 1, borderColor: '#217AFF' }}
             />
           ))}
         </Stack>

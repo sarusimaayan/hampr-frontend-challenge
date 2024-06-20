@@ -20,7 +20,6 @@ export const CharactersTable = ({
   searchValue,
   tagsValues,
 }: CharactersTableProps) => {
-  console.log('** tagsValues', tagsValues)
 
   return (
     <DataGrid

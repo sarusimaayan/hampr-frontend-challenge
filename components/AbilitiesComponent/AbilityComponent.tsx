@@ -8,7 +8,7 @@ interface AbilityItemProps {
 }
 export const AbilityComponent = ({ averageCharactersCapabilities }: AbilityItemProps) => {
   return (
-      <Stack mb={'35px'}>
+      <Stack mb={{ xs: 2, md: 4 }} >
           <Stack alignItems="center">
               <Stack direction="row">
                   {averageCharactersCapabilities?.map((capability) => (

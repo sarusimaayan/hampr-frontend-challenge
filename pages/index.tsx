@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip, Container, Grid, Paper } from '@mui/material'
+import {Avatar, Box, Chip, Container, Grid, Paper, Typography} from '@mui/material'
 import jsonData from 'data/characters.json'
 import type { Character } from 'types/characters'
 import { AbilityName } from 'types/characters'
@@ -22,7 +22,6 @@ const tagsFilterOperators = getGridSingleSelectOperators()
     newOperator.getApplyFilterFn = (filterItem: GridFilterItem, column: GridColDef) => {
       return (params): boolean => {
         let isDisplayed = true
-        console.log('** filterItem', filterItem)
         filterItem?.value?.forEach((value) => {
           isDisplayed = isDisplayed && params?.find((param) => param.tag_name === value)
         })
