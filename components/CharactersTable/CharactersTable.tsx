@@ -1,10 +1,10 @@
 import { DataGrid, GridColDef, GridLogicOperator } from '@mui/x-data-grid'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Character } from '../../types/characters'
 import { GridRowSelectionModel } from '@mui/x-data-grid/models/gridRowSelectionModel'
 
 interface CharactersTableProps {
-  data: Character[]
+  inputData: Character[]
   columns: GridColDef[]
   onSelection: (ids: GridRowSelectionModel) => void
   rowSelectionModel: GridRowSelectionModel | undefined
@@ -13,7 +13,7 @@ interface CharactersTableProps {
 }
 
 export const CharactersTable = ({
-  data,
+  inputData,
   columns,
   onSelection,
   rowSelectionModel,
@@ -21,9 +21,19 @@ export const CharactersTable = ({
   tagsValues,
 }: CharactersTableProps) => {
 
+  const [data, setData] = useState(inputData);
+
+  useEffect(() => {
+    if (!searchValue){
+      setData(inputData);
+    } else {
+      setData(data.filter(row => row.name.toLowerCase().includes(searchValue)));
+    }
+  }, [searchValue]);
+
   return (
     <DataGrid
-      style={{ background: 'white', fontWeight: 'bold' }}
+      style={{ background: 'white', fontWeight: 'bold', minHeight:'150px' }}
       rows={data}
       columns={columns}
       disableColumnMenu={true}
@@ -38,11 +48,10 @@ export const CharactersTable = ({
       rowSelectionModel={rowSelectionModel}
       filterModel={{
         items: [
-          { id: 1, field: 'name', operator: 'contains', value: searchValue },
-          // { id: 2, field: 'tags', operator: 'isAnyOf', value: tagsValues },
+          { id: 2, field: 'tags', operator: 'isAnyOf', value: tagsValues },
         ],
-        logicOperator: GridLogicOperator.Or,
       }}
+      localeText={{ noRowsLabel: "No character found" }}
     />
   )
 }

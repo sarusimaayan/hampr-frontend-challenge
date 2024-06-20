@@ -93,7 +93,7 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }: HomeContainerPr
         </Grid>
       </Container>
       <CharactersTable
-        data={data}
+        inputData={data}
         columns={columns}
         searchValue={searchValue}
         tagsValues={selectedTags}
