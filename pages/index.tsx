@@ -1,7 +1,8 @@
-import { Avatar, Box, Chip, Container, Grid } from '@mui/material'
+import {Avatar, Box, Chip, Container, Grid} from '@mui/material'
 import jsonData from 'data/characters.json'
-import type { Character } from 'types/characters'
-import { GridColDef } from '@mui/x-data-grid'
+import type {Character} from 'types/characters'
+import {AbilityName} from "types/characters";
+import {getGridSingleSelectOperators, GridColDef, GridComparatorFn, GridFilterItem} from '@mui/x-data-grid'
 import logo from 'img/Mortal-Kombat-Logo.png'
 import Image from 'next/image'
 import React, {useMemo} from 'react'
@@ -11,13 +12,34 @@ import {capitalFirstLetter} from "../utils/utils";
 // EXAMPLE: style via css modules (optional)
 // import styles from 'styles/index.module.scss'
 
+const tagsSortComparator: GridComparatorFn = (tags1: any, tags2: any) => {
+  return tags1.length - tags2.length
+}
+
+const tagsFilterOperators = getGridSingleSelectOperators()
+    .filter((operator) => operator.value === "isAnyOf")
+    .map((operator) => {
+      const newOperator = { ...operator };
+      newOperator.getApplyFilterFn = (filterItem: GridFilterItem, column: GridColDef) => {
+        return (params): boolean => {
+          let isDisplayed = true;
+          console.log('** filterItem', filterItem);
+          filterItem?.value?.forEach((value) => {
+            isDisplayed = isDisplayed && params?.find(param => param.tag_name === value);
+          });
+          return isDisplayed;
+        }
+      };
+      return newOperator;
+    });
+
 const data: Character[] = jsonData as Character[];
 const columns: GridColDef[] = [
   {
     field: 'thumbnail',
     headerName: 'Character',
     sortable: false,
-    width: 80,
+    width: 100,
     renderCell: (params) => <Avatar src={params.value} />,
   },
   { field: 'name', headerName: '', width: 150 },
@@ -26,6 +48,8 @@ const columns: GridColDef[] = [
     headerName: 'Tags',
     sortable: false,
     width: 400,
+    sortComparator: tagsSortComparator,
+    filterOperators: tagsFilterOperators,
     renderCell: (params) => {
       const characterTagNames: string[] = []
       params.value?.forEach((tag) => {
@@ -47,42 +71,42 @@ const columns: GridColDef[] = [
   },
   {
     field: 'abilities_power',
-    headerName: 'Power',
+    headerName: AbilityName.Power,
     width: 90,
     valueGetter: (value, row) => {
-      return row.abilities.find((item) => item.abilityName === 'Power').abilityScore
+      return row.abilities.find((item) => item.abilityName === AbilityName.Power).abilityScore
     },
   },
   {
     field: 'abilities_mobility',
-    headerName: 'Mobility',
+    headerName: AbilityName.Mobility,
     width: 90,
     valueGetter: (value, row) => {
-      return row.abilities.find((item) => item.abilityName === 'Mobility').abilityScore
+      return row.abilities.find((item) => item.abilityName === AbilityName.Mobility).abilityScore
     },
   },
   {
     field: 'abilities_technique',
-    headerName: 'Technique',
+    headerName: AbilityName.Technique,
     width: 90,
     valueGetter: (value, row) => {
-      return row.abilities.find((item) => item.abilityName === 'Technique').abilityScore
+      return row.abilities.find((item) => item.abilityName === AbilityName.Technique).abilityScore
     },
   },
   {
     field: 'abilities_survivability',
-    headerName: 'Survivability',
+    headerName: AbilityName.Survivability,
     width: 90,
     valueGetter: (value, row) => {
-      return row.abilities.find((item) => item.abilityName === 'Survivability').abilityScore
+      return row.abilities.find((item) => item.abilityName === AbilityName.Survivability).abilityScore
     },
   },
   {
     field: 'abilities_energy',
-    headerName: 'Energy',
+    headerName: AbilityName.Energy,
     width: 90,
     valueGetter: (value, row) => {
-      return row.abilities.find((item) => item.abilityName === 'Energy').abilityScore
+      return row.abilities.find((item) => item.abilityName === AbilityName.Energy).abilityScore
     },
   },
 ];

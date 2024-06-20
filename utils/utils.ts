@@ -1,20 +1,24 @@
 import {GridRowId} from "@mui/x-data-grid";
-import {AbilityName, CharacterAbility} from "../types/characters";
+import {
+    AbilityName,
+    Character,
+    CharacterAbility,
+} from "../types/characters";
 
 export const capitalFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export const calculateAverageCapabilities = (selectedCharacters: GridRowId[], data): CharacterAbility[] => {
+export const calculateAverageCapabilities = (selectedCharacters: Character[]): CharacterAbility[] => {
     let mobilitySum = 0
     let techniqueSum = 0
     let survivabilitySum = 0
     let powerSum = 0
     let energySum = 0
 
-    selectedCharacters.forEach((id) => {
-        const characterObj = data.find((character) => character.id === id)
-        characterObj?.abilities.forEach((ability) => {
+    selectedCharacters.forEach((character) => {
+        // const characterObj = data.find((character) => character.id === id)
+        character.abilities.forEach((ability) => {
             switch (ability.abilityName) {
                 case AbilityName.Power:
                     powerSum += ability.abilityScore
@@ -50,4 +54,15 @@ export const calculateAverageCapabilities = (selectedCharacters: GridRowId[], da
         {abilityName: AbilityName.Survivability, abilityScore: survivabilityAvg},
         {abilityName: AbilityName.Energy, abilityScore: energyAvg},
     ];
+}
+
+export const getSelectedCharactersInfo = (selectedCharacters: GridRowId[], data): Character[] => {
+    let selectedCharactersQuickInfo: Character[] = [];
+
+    selectedCharacters.forEach((id) => {
+        const characterObj = data.find((character) => character.id === id);
+        selectedCharactersQuickInfo.push(characterObj);
+    });
+
+    return selectedCharactersQuickInfo;
 }

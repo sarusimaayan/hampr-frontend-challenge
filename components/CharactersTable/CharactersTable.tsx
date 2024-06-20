@@ -1,7 +1,7 @@
-import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
+import {DataGrid, GridColDef, GridLogicOperator} from '@mui/x-data-grid'
 import React from 'react'
-import { Character } from '../../types/characters'
-import { GridRowSelectionModel } from '@mui/x-data-grid/models/gridRowSelectionModel'
+import {Character} from '../../types/characters'
+import {GridRowSelectionModel} from '@mui/x-data-grid/models/gridRowSelectionModel'
 
 interface CharactersTableProps {
   data: Character[];
@@ -20,11 +20,14 @@ export const CharactersTable = ({
   searchValue,
   tagsValues,
 }: CharactersTableProps) => {
+  console.log('** tagsValues', tagsValues);
+
   return (
     <DataGrid
       style={{ background: 'white', fontWeight: 'bold' }}
       rows={data}
       columns={columns}
+      disableColumnMenu={true}
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 5 },
@@ -37,8 +40,9 @@ export const CharactersTable = ({
       filterModel={{
         items: [
           { id: 1, field: 'name', operator: 'contains', value: searchValue },
-          { id: 2, field: 'tags', operator: 'isAnyOf', value: tagsValues },
+          // { id: 2, field: 'tags', operator: 'isAnyOf', value: tagsValues },
         ],
+        logicOperator: GridLogicOperator.Or
       }}
     />
   )
