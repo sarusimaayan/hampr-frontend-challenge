@@ -26,7 +26,7 @@ const StickyOverlayFrame: React.FC = () => {
         height={120}
         className="logo"
         alt="logo"
-        style={{ position: 'fixed', top:10, left: "43%", zIndex: 1001 }}
+        style={{ position: 'fixed', top: 10, left: '43%', zIndex: 1001 }}
       />
     </Box>
   )

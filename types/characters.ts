@@ -3,7 +3,7 @@ export enum AbilityName {
   Mobility = 'Mobility',
   Technique = 'Technique',
   Survivability = 'Survivability',
-  Energy = 'Energy'
+  Energy = 'Energy',
 }
 
 export interface CharacterAbility {

@@ -1,15 +1,12 @@
-import {Avatar, Box, Chip, Container, Grid, Paper} from '@mui/material'
+import { Avatar, Box, Chip, Container, Grid, Paper } from '@mui/material'
 import jsonData from 'data/characters.json'
-import type {Character} from 'types/characters'
-import {AbilityName} from "types/characters";
-import {getGridSingleSelectOperators, GridColDef, GridComparatorFn, GridFilterItem} from '@mui/x-data-grid'
-import logo from 'img/Mortal-Kombat-Logo.png'
-import Image from 'next/image'
-import React, {useMemo} from 'react'
-import {HomeContainer} from "../components/HomeContainer/HomeContainer";
-import {capitalFirstLetter} from "../utils/utils";
-import {margin} from "@mui/system";
-import StickyOverlayFrame from "../components/Frame/StickyOverlayFrame";
+import type { Character } from 'types/characters'
+import { AbilityName } from 'types/characters'
+import { getGridSingleSelectOperators, GridColDef, GridComparatorFn, GridFilterItem } from '@mui/x-data-grid'
+import React, { useMemo } from 'react'
+import { HomeContainer } from '../components/HomeContainer/HomeContainer'
+import { capitalFirstLetter } from '../utils/utils'
+import StickyOverlayFrame from '../components/Frame/StickyOverlayFrame'
 
 // EXAMPLE: style via css modules (optional)
 // import styles from 'styles/index.module.scss'
@@ -19,23 +16,23 @@ const tagsSortComparator: GridComparatorFn = (tags1: any, tags2: any) => {
 }
 
 const tagsFilterOperators = getGridSingleSelectOperators()
-    .filter((operator) => operator.value === "isAnyOf")
-    .map((operator) => {
-      const newOperator = { ...operator };
-      newOperator.getApplyFilterFn = (filterItem: GridFilterItem, column: GridColDef) => {
-        return (params): boolean => {
-          let isDisplayed = true;
-          console.log('** filterItem', filterItem);
-          filterItem?.value?.forEach((value) => {
-            isDisplayed = isDisplayed && params?.find(param => param.tag_name === value);
-          });
-          return isDisplayed;
-        }
-      };
-      return newOperator;
-    });
+  .filter((operator) => operator.value === 'isAnyOf')
+  .map((operator) => {
+    const newOperator = { ...operator }
+    newOperator.getApplyFilterFn = (filterItem: GridFilterItem, column: GridColDef) => {
+      return (params): boolean => {
+        let isDisplayed = true
+        console.log('** filterItem', filterItem)
+        filterItem?.value?.forEach((value) => {
+          isDisplayed = isDisplayed && params?.find((param) => param.tag_name === value)
+        })
+        return isDisplayed
+      }
+    }
+    return newOperator
+  })
 
-const data: Character[] = jsonData as Character[];
+const data: Character[] = jsonData as Character[]
 const columns: GridColDef[] = [
   {
     field: 'thumbnail',
@@ -111,32 +108,29 @@ const columns: GridColDef[] = [
       return row.abilities.find((item) => item.abilityName === AbilityName.Energy).abilityScore
     },
   },
-];
+]
 
 const Home = () => {
-
-  const uniqueCharacterTagNames = useMemo(
-      () => {
-        let allCharacterTagNames: string[] = [];
-        data.forEach((character) => {
-          character.tags?.forEach((tag) => {
-            allCharacterTagNames.push(tag.tag_name);
-          })
-        });
-        return Array.from(new Set(allCharacterTagNames));
-      }, [data]);
+  const uniqueCharacterTagNames = useMemo(() => {
+    let allCharacterTagNames: string[] = []
+    data.forEach((character) => {
+      character.tags?.forEach((tag) => {
+        allCharacterTagNames.push(tag.tag_name)
+      })
+    })
+    return Array.from(new Set(allCharacterTagNames))
+  }, [data])
 
   return (
     <div className="root">
       <Box
         width="100%"
-        // EXAMPLE: style via material-ui/mui style props/sx (optional)
         mb={10}
         bgcolor="#f5faff"
         py={10}
       >
         <header>
-          <StickyOverlayFrame/>
+          <StickyOverlayFrame />
         </header>
         <HomeContainer data={data} columns={columns} uniqueTagNames={uniqueCharacterTagNames} />
       </Box>

@@ -1,15 +1,15 @@
-import {DataGrid, GridColDef, GridLogicOperator} from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridLogicOperator } from '@mui/x-data-grid'
 import React from 'react'
-import {Character} from '../../types/characters'
-import {GridRowSelectionModel} from '@mui/x-data-grid/models/gridRowSelectionModel'
+import { Character } from '../../types/characters'
+import { GridRowSelectionModel } from '@mui/x-data-grid/models/gridRowSelectionModel'
 
 interface CharactersTableProps {
-  data: Character[];
-  columns: GridColDef[];
-  onSelection: (ids: GridRowSelectionModel) => void;
-  rowSelectionModel: GridRowSelectionModel | undefined;
-  searchValue: string;
-  tagsValues: string[];
+  data: Character[]
+  columns: GridColDef[]
+  onSelection: (ids: GridRowSelectionModel) => void
+  rowSelectionModel: GridRowSelectionModel | undefined
+  searchValue: string
+  tagsValues: string[]
 }
 
 export const CharactersTable = ({
@@ -20,7 +20,7 @@ export const CharactersTable = ({
   searchValue,
   tagsValues,
 }: CharactersTableProps) => {
-  console.log('** tagsValues', tagsValues);
+  console.log('** tagsValues', tagsValues)
 
   return (
     <DataGrid
@@ -42,7 +42,7 @@ export const CharactersTable = ({
           { id: 1, field: 'name', operator: 'contains', value: searchValue },
           // { id: 2, field: 'tags', operator: 'isAnyOf', value: tagsValues },
         ],
-        logicOperator: GridLogicOperator.Or
+        logicOperator: GridLogicOperator.Or,
       }}
     />
   )
