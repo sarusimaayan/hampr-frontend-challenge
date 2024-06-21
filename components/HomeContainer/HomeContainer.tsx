@@ -6,18 +6,17 @@ import { Check } from '@mui/icons-material'
 import { CharactersTable } from '../CharactersTable/CharactersTable'
 import { GridRowSelectionModel } from '@mui/x-data-grid/models/gridRowSelectionModel'
 import { Character, CharacterAbility } from '../../types/characters'
-import { GridColDef } from '@mui/x-data-grid'
 import { calculateAverageCapabilities, capitalFirstLetter, getSelectedCharactersInfo } from '../../utils/utils'
 import { AbilityComponent } from '../AbilitiesComponent/AbilityComponent'
 import {MAX_SELECTION} from "../../utils/constants";
+import {CharactersTableColumns} from "./CharactersTableColumns";
 
 interface HomeContainerProps {
   data: Character[]
-  columns: GridColDef[]
   uniqueTagNames: string[]
 }
 
-export const HomeContainer = ({ data, columns, uniqueTagNames }: HomeContainerProps) => {
+export const HomeContainer = ({ data, uniqueTagNames }: HomeContainerProps) => {
   const [selectedCharacters, setSelectedCharacters] = useState<GridRowSelectionModel>([])
   const [selectedCharactersInfo, setSelectedCharactersInfo] = useState<Character[]>([])
   const [averageCharactersCapabilities, setAverageCapabilities] = useState<CharacterAbility[]>([])
@@ -92,7 +91,7 @@ export const HomeContainer = ({ data, columns, uniqueTagNames }: HomeContainerPr
       </Container>
       <CharactersTable
         inputData={data}
-        columns={columns}
+        columns={CharactersTableColumns}
         searchValue={searchValue}
         tagsValues={selectedTags}
         onSelection={(ids: GridRowSelectionModel) => {
